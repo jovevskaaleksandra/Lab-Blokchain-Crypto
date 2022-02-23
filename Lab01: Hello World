@@ -1,0 +1,7 @@
+// SPDX-License-Identifier: MIT
+//compiler version greater than or equal to 0.7.0
+pragma solidity ^0.7.0;
+
+contract lab01 {
+    string public temp = "Hello World";
+}
