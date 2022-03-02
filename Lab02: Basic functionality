@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.7.0;
+pragma abicoder v2;
+
+//A structure Person with attributes name and lastName
+ struct Person {
+        address person;
+        string name;
+        string lastName;
+    }
+
+contract lab02 {
+    //maps the etherium address to instance of Person
+    mapping (address => Person) people;
+    //Event while adding new Person
+    event newPersonAdded(string message);
+
+    //new Person, address is key
+    function addPerson (address _person, string memory  _name, string memory  _lastName) public {
+        people[_person] = Person(msg.sender, _name, _lastName);
+        emit newPersonAdded("This is where the event emits");
+    }
+
+    //get Person
+    function getPerson (address _owner) public view returns (Person memory) {
+        return people[_owner];
+    }
+
+}
