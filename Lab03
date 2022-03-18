@@ -1,0 +1,70 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.7.0;
+pragma abicoder v2;
+
+//library that includes functions addPerson & addCompany
+library Llab03{
+    //A structure Person with attributes name and lastName
+    struct Person {
+        address person;
+        string nameOfPerson;
+        string lastNameOfPerson;
+    }
+
+    //A structure Company 
+    struct Company {
+        address company;
+        string nameOfCompany;
+    }
+
+    mapping (address => Person) people;
+    mapping (address => Company) companies;
+
+    event AddedPerson (string message);
+    event AddedCompany (string message);
+
+    //new Person, address is key
+    function addPersonL (address _person, string memory  _nameOfPerson, string memory  _lastNameOfPerson) external {
+        people[_person] = Person(msg.sender,_nameOfPerson, _lastNameOfPerson);
+        emit AddedPerson("New person added");
+    }
+
+    //new Company, address is key
+    function addCompanyL (address _company, string memory  _nameOfCompany) external {
+        companies[_company] = Company(msg.sender, _nameOfCompany);
+        emit AddedCompany("New company added");
+    }
+}
+
+interface Ilab03{
+
+    function addPersonI (address _person, string memory  _nameOfPerson, string memory  _lastNameOfPerson) external;
+    
+    function addCompanyI (address _company, string memory  _nameOfCompany) external;
+
+    function getPersonI (address _person) external view returns (Library.Person memory); 
+
+    function getCompanyI (address _company) external view returns (Library.Person memory); 
+    
+}
+
+contract Clab03{
+    Data mappings;
+
+    function addPersonI (address _person, string memory  _nameOfPerson, string memory  _lastNameOfPerson) external{
+        Llab03.addPersonL(mappings, _person, _nameOfPerson, _lastNameOfPerson);
+    }
+    
+    function addCompanyI (address _company, string memory  _nameOfCompany) external{
+        Llab03.addPersonL(mappings, _company, _nameOfCompany);
+    }
+
+    function getPersonI (address _person) external view returns (Library.Person memory){
+        return (mappings.people[_person].nameOfPerson, mappings.people[_person].lastNameOfPerson);
+    }
+
+    function getCompanyI (address _company) external view returns (Library.Person memory){
+        return (mappings.companies[_company].nameOfPerson);
+    }
+    
+}
